@@ -1,12 +1,18 @@
 <!doctype html>
 <html>
-    <body>
-        Hello, world.
-        <form method="post" action="/">
-            <label for="name">Phone Number: </label><input type="text" name="user[name]"><br>
-            <label for="item">Item: </label><input type="text" name="user[item]"><br>
-            <label for="price">Price: </label><input type="text" name="user[price]"><br>
-            <input type="submit" value="Submit">
-        </form>
-    </body>
+  <body>
+    Please enter information here to generate a qrcode.
+    <form method="post" action="/generate-qr">
+      <label for="seller">Phone Number: </label>
+      <input type="text" name="seller"><br>
+
+      <label for="item">Item: </label>
+      <input type="text" name="item"><br>
+
+      <label for="price">Price: </label>
+      <input type="text" name="price"><br>
+
+      <input type="submit" value="Submit">
+    </form>
+  </body>
 </html>
