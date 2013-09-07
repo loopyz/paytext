@@ -62,4 +62,9 @@ app.post('/generate-qr', function (req, res) {
     res.render('qrcode', { url: qrcode});
 });
 
-app.listen(3333);
+//app.listen(3333);
+
+var port = process.env.PORT || 5000;
+app.listen(port, function() {
+  console.log("Listening on " + port);
+});
