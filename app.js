@@ -67,7 +67,7 @@ app.post('/signup', function (req, res) {
 
   //confirm the same password is entered twice
   if (pwd!==repwd) {
-    res.render('signup', {error: 'Please enter the same password twice'});
+    res.render('signup', {error: '<a class="close" data-dismiss="alert" href="#">Passwords did not match!</a>'});
     return;
   }
 

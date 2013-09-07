@@ -43,7 +43,9 @@
     <body>
       <div class="container">
         {% if error %}
-          {{ error }}
+          <div class="alert alert-error span3 offset3" style="margin-left: 36%; margin-top: 2%;">
+                <a class="close" data-dismiss="alert" href="#">×</a>Passwords did not match!
+            </div>
         {% endif %}
         <form class="form-signin" method="POST" action="/signup">
           <input type="text" class="input-block-level" name="user" placeholder="Username">
