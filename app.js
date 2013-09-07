@@ -101,6 +101,11 @@ app.get('/make_purchase', function (req, res) {
   });
 });
 
+app.get('/logout', function (req, res) {
+  res.cookie('user', '');
+  res.redirect('/');
+});
+
 var port = process.env.PORT || 5000;
 app.listen(port, function() {
   console.log("Listening on " + port);
