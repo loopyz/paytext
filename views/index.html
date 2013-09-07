@@ -24,6 +24,10 @@
     font-weight: 600;
     }
 
+    #login-button {
+      margin-top: -8px;
+    }
+
     /* MARKETING CONTENT
     -------------------------------------------------- */
 
@@ -55,7 +59,7 @@
                 <form class="navbar-search pull-right" method="POST" action="/login">
                   <input type="text" class="span2" name="user" placeholder="Username">
                   <input type="text" class="span2" name="pwd" placeholder="Password">
-                  <input type="submit" value="Login" class="btn"/>
+                  <input type="submit" value="Login" class="btn" id="login-button"/>
                 </form>
                 {% if loginFailed %}
                   Incorrect Username/Password
