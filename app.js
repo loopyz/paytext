@@ -87,6 +87,14 @@ app.get('/generate', function (req, res) {
   res.render('generate', {user: req.cookies.user});
 });
 
+app.get('/delete', function (req, res) {
+  res.render('delete', {user: req.cookies.user});
+});
+
+app.get('/qrcodes', function (req, res) {
+  res.render('qrcodes', {user: req.cookies.user});
+});
+
 app.get('/', function (req, res) {
   if (req.cookies.user) {
       res.redirect('/dashboard');
