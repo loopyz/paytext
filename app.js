@@ -1,9 +1,12 @@
 var express = require('express'),
   cons = require('consolidate'),
-  request = require('request');
+  request = require('request'),
+  persist = require('persist'),
+  models = require('./models');
 
 var app = express();
 
+var CONNECTION = null;
 // non-encrypted passwords :D
 var USERS_PASSWORD = {
   lucy: 'pwd',
@@ -135,6 +138,16 @@ app.get('/logout', function (req, res) {
 });
 
 var port = process.env.PORT || 5000;
-app.listen(port, function() {
-  console.log("Listening on " + port);
+persist.connect({
+  driver: 'sqlite3',
+  filename: 'db.db',
+}, function (err, conn) {
+  if (err) {
+    console.error('bummer ;(');
+  } else {
+    CONNECTION = conn;
+    app.listen(port, function() {
+      console.log("Listening on " + port);
+    });
+  }
 });
