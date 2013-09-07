@@ -7,20 +7,15 @@ var express = require('express'),
 var app = express();
 
 var CONNECTION = null;
-// non-encrypted passwords :D
-var USERS_PASSWORD = {
-  lucy: 'pwd',
-  nive: 'pwd',
-  alexis: 'pwd',
+
+//anyone can access the following pages
+var ALL_ACCESS = ['/', '/login', '/signup', '/purchase', '/make_purchase'];
+
+var generate_qr = function (id) {
+    var link = 'paytext.herokuapp.com/purchase/' + id;
+    return 'http://chart.apis.google.com/chart?cht=qr&chs=300x300&chl=' +
+      encodeURIComponent(link);
 };
-
-var SELLER_PHONE = '4087181204';
-
-var ITEMS_COST = {
-  123: 0.01,
-  456: 0.01,
-  789: 0.01,
-}
 
 app.engine('html', cons.swig);
 app.set('view engine', 'html');
@@ -35,8 +30,7 @@ app.use(express.static('static/'));
 // use this stupid middleware to check if the user is logged before loading
 // each page, if he's not ask him to log in.
 app.use(function(req, res, next) {
-  if (req.path!=='/login' && req.path!=='/' && req.path!='/signup' &&
-      !req.cookies.user) {
+  if (ALL_ACCESS.indexOf(req.path)===-1 && !req.cookies.user) {
     res.redirect('/');
   } else {
     next();
@@ -120,23 +114,15 @@ app.get('/add-item', function (req, res) {
 });
 
 app.post('/add-item', function (req, res) {
-  var note = 'Thank you for buying '+ req.body.item
-  var link = 'venmo.com/?txn=pay&amount=' + req.body.price +
-             '&note=' + encodeURIComponent(note) + '&recipients=' +
-             req.seller.phone;
-
-  var qrcode = 'http://chart.apis.google.com/chart?cht=qr&chs=300x300&chl=' +
-                encodeURIComponent(link);
 
   var item = new models.Item({
     price: req.body.price,
-    link: qrcode,
     seller: req.seller,
     description: req.body.description
   });
 
   item.save(CONNECTION, function (err) {
-    res.render('add-item', { url: qrcode});
+    res.render('add-item', { url: generate_qr(item.id)});
   });
 
 });
