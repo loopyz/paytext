@@ -1,0 +1,19 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Login!</title>
+    </head>
+    <!-- TODO(alexisd): make proper templates w/ inheritance... -->
+    <body>
+        {% if success %}
+            You're successfully logged in as {{user}}
+        {% else %}
+            <form method="POST" action="/login">
+                Username: <input name="user" type="text" />
+                Password: <input name="pwd" type="password" />
+                <input type="submit" />
+            </form>
+        {% endif %}
+    </body>
+</html>
