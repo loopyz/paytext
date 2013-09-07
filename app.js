@@ -30,7 +30,13 @@ app.use(express.static('static/'));
 // use this stupid middleware to check if the user is logged before loading
 // each page, if he's not ask him to log in.
 app.use(function(req, res, next) {
-  if (ALL_ACCESS.indexOf(req.path)===-1 && !req.cookies.user) {
+  var can_access = false;
+
+  for (var i=0; i<ALL_ACCESS.length; i++) {
+    can_access = can_access || (req.path.indexOf(ALL_ACCESS[i]) === 0);
+  }
+
+  if (!can_access && !req.cookies.user) {
     res.redirect('/');
   } else {
     next();
