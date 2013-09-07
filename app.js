@@ -138,7 +138,11 @@ app.get('/delete-item', function (req, res) {
 });
 
 app.get('/qrcodes', function (req, res) {
-  res.render('qrcodes', {user: req.cookies.user});
+
+  models.Item.where('sellerId = ?', req.seller.id).all(CONNECTION,
+      function (err, items) {
+        res.render('qrcodes', {user: req.cookies.user, items: items});
+      });
 });
 
 app.get('/item', function (req, res) {

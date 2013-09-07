@@ -2,37 +2,31 @@
   <head>
     <style type="text/css">
         #wrapper h1{
-         font-family: 'HelveticaNeue-UltraLight', 'Helvetica Neue UltraLight', 'Helvetica Neue', Arial, Helvetica, sans-serif;
-        font-weight: 200; 
-        font-size: 30px;
-         color:black;
-         
-         padding-top: 20%;
+          font-family: 'HelveticaNeue-UltraLight', 'Helvetica Neue UltraLight', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+          font-weight: 200; 
+          font-size: 30px;
+          color:black;
+          padding-top: 20%;
         }
 
         #error {
-            font-family: 'HelveticaNeue-UltraLight', 'Helvetica Neue UltraLight', 'Helvetica Neue', Arial, Helvetica, sans-serif;
-        font-weight: 200; 
-        font-size: 30px;
-         color:red;
-         
-         padding-top: 20%;
+          font-family: 'HelveticaNeue-UltraLight', 'Helvetica Neue UltraLight', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+          font-weight: 200; 
+          font-size: 30px;
+          color:red;
+          padding-top: 20%;
         }
 
     </style>
 </head>
 <body>
 
-<div id="wrapper">
-    
-    
-{% if failed %}
-
-<center><div id="error">{{failed}} - {{ error }}</div></center>
-
-{% else %}
-<h1><center>You paid ${{ cost }} :) </center></h1>
-{% endif %}</center>
-</div>
+  <div id="wrapper">
+  {% if failed %}
+    <center><div id="error">{{failed}} - {{ error }}</div></center>
+  {% else %}
+  <h1><center>You paid ${{ price }} for {{ description }}. </center></h1>
+  {% endif %}
+  </div>
 </body>
 </html>
