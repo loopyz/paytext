@@ -6,6 +6,7 @@
     "dependencies" : {
         "express": ">= 3.0.4",
         "consolidate": ">= 0.9.1",
+        "request": ">= 2.27.0",
         "swig": ">= 0.12.0"
     },
     "engines": {

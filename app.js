@@ -1,5 +1,6 @@
 var express = require('express'),
-  cons = require('consolidate');
+  cons = require('consolidate'),
+  request = require('request');
 
 var app = express();
 
@@ -9,6 +10,14 @@ var USERS_PASSWORD = {
   nive: 'pwd',
   alexis: 'pwd',
 };
+
+var SELLER_PHONE = '4087181204';
+
+var ITEMS_COST = {
+  123: 0.01,
+  456: 0.01,
+  789: 0.01,
+}
 
 app.engine('html', cons.swig);
 app.set('view engine', 'html');
@@ -65,7 +74,32 @@ app.post('/generate-qr', function (req, res) {
     res.render('qrcode', { url: qrcode});
 });
 
-//app.listen(3333);
+app.get('/purchase/:id', function (req, res) {
+  res.cookie('buying', req.params.id);
+  res.redirect(
+    'https://api.venmo.com/oauth/authorize?client_id=1347&scope=make_payments&response_type=token'
+  );
+});
+
+app.get('/make_purchase', function (req, res) {
+  var item = parseInt(req.cookies.buying, 10),
+    cost = ITEMS_COST[item];
+  res.cookie('buying', '');
+
+  request.post(
+    'https://api.venmo.com/payments',
+    { form: {
+      access_token: req.query.access_token,
+      phone: SELLER_PHONE,
+      note: 'You bought item ' + item,
+      amount: cost,
+    }}
+  , function (err, response, body) {
+    var response = JSON.parse(body),
+      failed = err || response['error'] || response['status'] !== 'PAYMENT_SETTLED';
+    res.render('bought', {item: item, cost: cost, failed: failed, error: response['error']});
+  });
+});
 
 var port = process.env.PORT || 5000;
 app.listen(port, function() {
