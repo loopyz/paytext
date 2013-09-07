@@ -201,15 +201,20 @@ app.get('/logout', function (req, res) {
 var port = process.env.PORT || 5000;
 persist.connect({
   driver: 'sqlite3',
-  filename: 'db.db',
+  filename: ':memory:',
   trace: true
 }, function (err, conn) {
   if (err) {
     console.error('bummer ;(');
   } else {
     CONNECTION = conn;
-    app.listen(port, function() {
-      console.log("Listening on " + port);
+
+    conn.runSql("CREATE TABLE Sellers (id integer primary key autoincrement, name text, pwd text, phone text)", [], function (err, results) {
+        conn.runSql("CREATE TABLE Items (id integer primary key autoincrement, price real, description text, seller_id integer, FOREIGN KEY(seller_id) REFERENCES Seller(id))", [], function (err2, results2) {
+          app.listen(port, function() {
+            console.log("Listening on " + port);
+          });
+        });
     });
   }
 });
