@@ -1,21 +1,80 @@
 <!doctype html>
 <html>
   <head>
-    <link href="/bootstrap-3.0.0/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="//bootswatch.com/2/default/bootstrap.min.css" />
+    <link rel="stylesheet" href="//bootswatch.com/2/css/bootswatch.css" />
+    <style type="text/css">
+      .description {
+        font-family: 'HelveticaNeue-UltraLight', 'Helvetica Neue UltraLight', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+        font-weight: 100; 
+        letter-spacing: 1px;
+        font-size: 30px;
+      }
+
+      #header-title {
+        background-color: #666666;
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: rgba(255,255,255,0.5) 0px 3px 3px;
+    line-height: 300px;
+    font-size: 170px;
+    font-weight: 600;
+
+      }
+
+    </style>
   </head>
   <body>
-    Please enter information here to generate a qrcode.
-    <form method="post" action="/generate-qr">
-      <label for="seller">Phone Number: </label>
-      <input type="text" name="seller"><br>
 
-      <label for="item">Item: </label>
-      <input type="text" name="item"><br>
+    <div class="navbar navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container">
+                <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a>
+                <a class="brand" href="./">PayText</a>
+                <div class="nav-collapse collapse" id="main-menu">
+                    <ul class="nav" id="main-menu-left">
+                        <li><a href="/login">Login</a></li>
+                        <li><a href="#">Dummy Link</a></li>
+                    </ul>
+                    <form class="navbar-search pull-right">
+                        <input type="text" class="span2" placeholder="Login">
+                        <input type="text" class="span2" placeholder="Password">
+                        <input type="submit" value="Login" class="btn"/>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
-      <label for="price">Price: </label>
-      <input type="text" name="price"><br>
+    <div class="hero-unit">
+        <div id="header-title">PayText</div>
+        <p id="tagline">&nbsp;</p>
+        <div class="description">Never carry your debit/credit cards or cash around again!</div>
 
-      <input type="submit" value="Submit">
-    </form>
+    </div>
+    
+    <div class="container">
+
+          <h1>Please enter information here to generate a qrcode.</h1>
+          <p><form method="post" action="/generate-qr">
+          <label for="seller">Phone Number: </label>
+          <input type="text" name="seller"><br>
+
+          <label for="item">Item: </label>
+          <input type="text" name="item"><br>
+
+          <label for="price">Price: </label>
+          <input type="text" name="price"><br>
+
+          <input type="submit" value="Submit">
+        </form></p>
+
+        </div>
   </body>
 </html>
