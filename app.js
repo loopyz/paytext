@@ -43,17 +43,34 @@ app.use(function(req, res, next) {
   }
 });
 
+app.use(function(req, res, next) {
+  if (req.cookies.user) {
+    models.Seller.where({'name':req.cookies.user}).first(CONNECTION,
+        function(err, seller) {
+          req.seller = seller;
+          next();
+        });
+  } else {
+    next();
+  }
+
+});
+
 app.post('/login', function(req, res) {
   var user = req.body.user,
     pwd = req.body.pwd;
 
-  if (USERS_PASSWORD[user] === pwd) {
-    // obviously this cookie could be easily forget
-    res.cookie('user', user);
-    res.redirect('/dashboard');
-  } else {
-    res.render('index', {loginFailed: true});
-  }
+  models.Seller.where({'name':user, 'pwd': pwd}).count(CONNECTION,
+    function(err, count) {
+      if (count >= 1) {
+        // obviously this cookie could be easily forget
+        res.cookie('user', user);
+        res.redirect('/dashboard');
+      } else {
+        res.render('index', {loginFailed: true});
+      }
+  });
+
 });
 
 app.get('/signup', function (req, res) {
@@ -63,7 +80,8 @@ app.get('/signup', function (req, res) {
 app.post('/signup', function (req, res) {
   var user = req.body.user,
   pwd = req.body.pwd,
-  repwd = req.body.repwd;
+  repwd = req.body.repwd,
+  phone = req.body.phone;
 
   //confirm the same password is entered twice
   if (pwd!==repwd) {
@@ -71,32 +89,19 @@ app.post('/signup', function (req, res) {
     return;
   }
 
+  var seller = new models.Seller({
+      name: user,
+      pwd: pwd,
+      phone: phone
+  });
+
   //add user to database
+  seller.save(CONNECTION, function (err) {
+      //redirect them somewhere useful
+      res.cookie('user', user);
+      res.redirect('/dashboard');
+  });
 
-
-  //redirect them somewhere useful
-  res.cookie('user', user);
-  res.redirect('/dashboard');
-});
-
-app.get('/dashboard', function (req, res) {
-  res.render('dashboard', {user: req.cookies.user});
-});
-
-app.get('/generate', function (req, res) {
-  res.render('generate', {user: req.cookies.user});
-});
-
-app.get('/delete', function (req, res) {
-  res.render('delete', {user: req.cookies.user});
-});
-
-app.get('/qrcodes', function (req, res) {
-  res.render('qrcodes', {user: req.cookies.user});
-});
-
-app.get('/itempage', function (req, res) {
-  res.render('itempage', {user: req.cookies.user});
 });
 
 app.get('/', function (req, res) {
@@ -106,15 +111,53 @@ app.get('/', function (req, res) {
   res.render('index');
 });
 
-app.post('/generate-qr', function (req, res) {
+app.get('/dashboard', function (req, res) {
+  res.render('dashboard', {user: req.cookies.user});
+});
+
+app.get('/add-item', function (req, res) {
+  res.render('add-item', {user: req.cookies.user});
+});
+
+app.post('/add-item', function (req, res) {
   var note = 'Thank you for buying '+ req.body.item
   var link = 'venmo.com/?txn=pay&amount=' + req.body.price +
              '&note=' + encodeURIComponent(note) + '&recipients=' +
-             req.body.seller;
+             req.seller.phone;
 
   var qrcode = 'http://chart.apis.google.com/chart?cht=qr&chs=300x300&chl=' +
                 encodeURIComponent(link);
-    res.render('generate', { url: qrcode});
+
+  var item = new models.Item({
+    price: req.body.price,
+    link: qrcode,
+    seller: req.seller,
+    description: req.body.description
+  });
+
+  item.save(CONNECTION, function (err) {
+    res.render('add-item', { url: qrcode});
+  });
+
+});
+
+app.get('/delete-item', function (req, res) {
+  res.render('delete-item', {user: req.cookies.user});
+});
+
+app.get('/qrcodes', function (req, res) {
+  res.render('qrcodes', {user: req.cookies.user});
+});
+
+app.get('/item', function (req, res) {
+  res.render('item', {user: req.cookies.user});
+});
+
+app.get('/', function (req, res) {
+  if (req.cookies.user) {
+      res.redirect('/dashboard');
+  }
+  res.render('index');
 });
 
 app.get('/purchase/:id', function (req, res) {
@@ -125,23 +168,43 @@ app.get('/purchase/:id', function (req, res) {
 });
 
 app.get('/make_purchase', function (req, res) {
-  var item = parseInt(req.cookies.buying, 10),
-    cost = ITEMS_COST[item];
+  var id = parseInt(req.cookies.buying, 10),
+    description,
+    price,
+    seller_phone,
+    d = new Date();
   res.cookie('buying', '');
 
-  request.post(
-    'https://api.venmo.com/payments',
-    { form: {
-      access_token: req.query.access_token,
-      phone: SELLER_PHONE,
-      note: 'You bought item ' + item,
-      amount: cost,
-    }}
-  , function (err, response, body) {
-    var response = JSON.parse(body),
-      failed = err || response['error'] || response['status'] !== 'PAYMENT_SETTLED';
-    res.render('bought', {item: item, cost: cost, failed: failed, error: response['error']});
+  models.Item.where('id = ?', id).first(CONNECTION, function (err, item) {
+    price = item.price;
+    description = item.description;
+
+    models.Seller.where('id = ?', item.sellerId).first(CONNECTION,
+        function (err, seller) {
+          seller_phone = seller.phone;
+          request.post(
+            'https://api.venmo.com/payments',
+            { form: {
+              access_token: req.query.access_token,
+              phone: seller_phone,
+              note: 'You bought ' + description + ' at ' + d.getHours() + ':' +
+                d.getMinutes() + ':' + d.getSeconds(),
+              amount: price,
+            }}
+          , function (err, response, body) {
+            var response = JSON.parse(body),
+              failed = !!(err || response['error'] ||
+                (response['status'] !== 'PAYMENT_SETTLED'));
+            res.render('bought', {
+                item: description,
+                price: price,
+                failed: failed,
+                error: JSON.stringify(response['error'])
+            });
+          });
+        });
   });
+
 });
 
 app.get('/logout', function (req, res) {
@@ -153,6 +216,7 @@ var port = process.env.PORT || 5000;
 persist.connect({
   driver: 'sqlite3',
   filename: 'db.db',
+  trace: true
 }, function (err, conn) {
   if (err) {
     console.error('bummer ;(');
