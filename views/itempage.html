@@ -6,12 +6,23 @@
     <style type="text/css">
       .description {
         font-family: 'HelveticaNeue-UltraLight', 'Helvetica Neue UltraLight', 'Helvetica Neue', Arial, Helvetica, sans-serif;
-        font-weight: 500; 
+        font-weight: 200; 
         letter-spacing: 1px;
         font-size: 40px;
         padding-bottom: 30px;
-        margin-top: -20px;
-        line-height: 60px;
+        margin-top: -40px;
+        line-height: 40px;
+      }
+
+      .item-name {
+        font-family: 'HelveticaNeue-UltraLight', 'Helvetica Neue UltraLight', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+        font-weight: 200; 
+        letter-spacing: 1px;
+        font-size: 30px;
+        padding-bottom: 20px;
+        margin-top: 0px;
+        line-height: 50px;
+        color: grey;
       }
 
       #header-title {
@@ -42,6 +53,10 @@
         padding-bottom: 10px;
       }
 
+      #qr {
+        margin-top: 5%;
+      }
+
       #logo {
         background-color: #666666;
     -webkit-background-clip: text;
@@ -52,6 +67,12 @@
     font-size: 30px;
     font-weight: 900;
     }
+
+    .qr-image {
+      width: 150px;
+      height: auto;
+    }
+
 
     </style>
   </head>
@@ -81,12 +102,12 @@
           <div class="well sidebar-nav">
             <ul class="nav nav-list">
               <li class="nav-header">Main</li>
-              <li class="active"><a href="/dashboard">Dashboard</a></li>
+              <li><a href="/dashboard">Dashboard</a></li>
               <li><a href="/generate">Add Item</a></li>
               <li><a href="/delete">Delete Item</a></li>
               <li><a href="/qrcodes">QR Codes</a></li>
               <li class="nav-header">Items</li>
-              <li><a href="/itempage">Cookies</a></li>
+              <li class="active"><a href="/itempage">Cookies</a></li>
               <li><a href="/itempage">Chips</a></li>
               <li><a href="/itempage">Clothes</a></li>
               <li><a href="/itempage">Link</a></li>
@@ -106,69 +127,25 @@
                 <!-- Navbar
                 ================================================== -->
                 <section id="stats">
-                    <div class="description">Dashboard</div>
-                  <div class="row-fluid">
-                    <div class="span3">
-                        <div class="kpi">$45,000</div>
-                        <div><small>total income</small></div>
-                    </div>
-                    <div class="span3">
-                        <div class="kpi">$213</div>
-                        <div><small>income yesterday</small></div>
-                    </div>
-                    <div class="span3">
-                        <div class="kpi">3,826</div>
-                        <div><small>total items sold</small></div>
-                    </div>
-                    <div class="span3">
-                        <div class="kpi">38</div>
-                        <div><small>items sold yesterday</small></div>
-                    </div>
-                    
-                  </div>
-                
-                  <div class="sub-header">
-                    <div class="description">Best Selling Items</div>
-                  </div>
-                  <table class="table table-striped full-section table-hover">
-                    <thead>
-                      <tr>
-                        <th>Item</th>
-                        <th>Total Sales</th>
-                        <th>Sales Yesterday</th>
-                        <th>USD Today</th>
-                        <th>USD Total</th>
-                        <th>Last Sale</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td class="primary">Chocolate Chip</td>
-                        <td>4734</td>
-                        <td>56</td>
-                        <td>473</td>
-                        <td>3823</td>
-                        <td>December 15, 2012</td>
-                      </tr>
-                      <tr>
-                        <td class="primary">Peanut Butter</td>
-                        <td>3285</td>
-                        <td>32</td>
-                        <td>37</td>
-                        <td>3215</td>
-                        <td>December 7, 2012</td>
-                      </tr>
-                      <tr>
-                        <td class="primary">Mint</td>
-                        <td>87%</td>
-                        <td>74</td>
-                        <td>4</td>
-                        <td>3362</td>
-                        <td>December 21, 2012</td>
-                      </tr>
-                      
-                    </tbody>
-                  </table>
+                    <div class="description">Item Name Goes Here</div>
+                    <div class="row">
+                      <div class="span7">
+                        <img src="http://i.imgur.com/H2xoMJj.png" style="width: 500px; height: 300px;">
+                      </div>
+                      <div class="span5">
+                        <div class="item-name">total sold: 9382</div>
+                      </div>
+                      <div class="span5">
+                        <div class="item-name">sold today: 32</div>
+                      </div>
+                      <div class="span5">
+                        <div class="item-name">total income: $19382</div>
+                      </div>
+                      <div class="span5">
+                        <div class="item-name">today's income: $87</div>
+                      </div>
+                    </div>                
+                  
                 </section>
 
                 

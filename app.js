@@ -95,6 +95,10 @@ app.get('/qrcodes', function (req, res) {
   res.render('qrcodes', {user: req.cookies.user});
 });
 
+app.get('/itempage', function (req, res) {
+  res.render('itempage', {user: req.cookies.user});
+});
+
 app.get('/', function (req, res) {
   if (req.cookies.user) {
       res.redirect('/dashboard');
