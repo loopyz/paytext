@@ -1,21 +1,120 @@
 <!doctype html>
 <html>
   <head>
-    <link href="/bootstrap-3.0.0/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="//bootswatch.com/2/default/bootstrap.min.css" />
+    <link rel="stylesheet" href="//bootswatch.com/2/css/bootswatch.css" />
+    <style type="text/css">
+      .description {
+        font-family: 'HelveticaNeue-UltraLight', 'Helvetica Neue UltraLight', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+        font-weight: 100; 
+        letter-spacing: 1px;
+        font-size: 30px;
+        padding-bottom: 30px;
+      }
+
+      #header-title {
+        background-color: #666666;
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: rgba(255,255,255,0.5) 0px 3px 3px;
+    line-height: 250px;
+    font-size: 170px;
+    font-weight: 600;
+    }
+
+    #login-button {
+      margin-top: -8px;
+    }
+
+    /* MARKETING CONTENT
+    -------------------------------------------------- */
+
+    /* Center align the text within the three columns below the carousel */
+    .marketing .span4 {
+      text-align: center;
+    }
+    .marketing h2 {
+      font-weight: normal;
+    }
+    .marketing .span4 p {
+      margin-left: 10px;
+      margin-right: 10px;
+    }
+
+    </style>
   </head>
   <body>
-    Please enter information here to generate a qrcode.
-    <form method="post" action="/generate-qr">
-      <label for="seller">Phone Number: </label>
-      <input type="text" name="seller"><br>
 
-      <label for="item">Item: </label>
-      <input type="text" name="item"><br>
+    <div class="navbar navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container">
+                <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a>
+                <a class="brand" href="./">1.PayText</a>
+                <form class="navbar-search pull-right" method="POST" action="/login">
+                  <input type="text" class="span2" name="user" placeholder="Username">
+                  <input type="text" class="span2" name="pwd" placeholder="Password">
+                  <input type="submit" value="Login" class="btn" id="login-button"/>
+                </form>
+                {% if loginFailed %}
+                  Incorrect Username/Password
+                {% endif %}
+            </div>
+        </div>
+    </div>
 
-      <label for="price">Price: </label>
-      <input type="text" name="price"><br>
+    <div class="hero-unit">
+        <div id="header-title">PayText</div>
+        <p id="tagline">&nbsp;</p>
+        <div class="description">The new payment option: No need to deal with credit cards or cash again!</div>
 
-      <input type="submit" value="Submit">
-    </form>
+    </div>
+
+    <!-- Three columns of text below the header -->
+      <div class="container marketing">
+
+      <!-- Three columns of text below the carousel -->
+      <div class="row">
+        <div class="span4">
+          <img class="img-circle" src="https://cdn2.iconfinder.com/data/icons/picons-basic-1/57/basic1-031_mobile_iphone-512.png">
+          <br><br>
+          <div class="description">Your phone is the only thing you need!</div>
+        </div><!-- /.span4 -->
+        <div class="span4">
+          <img class="img-circle" src="http://i.imgur.com/PUEC8yq.png">
+          <br><br>
+          <div class="description">Sellers can offer another payment option while buyers never have to carry cash around again!
+          </div>
+        </div><!-- /.span4 -->
+        <div class="span4">
+          <img class="img-circle" src="https://cdn3.iconfinder.com/data/icons/shopping-icons-1/512/Credit_Card-512.png">
+          <br><br>
+          <div class="description">Lower fees than credit cards!</div>
+        </div><!-- /.span4 -->
+      </div><!-- /.row -->
+  </div>
+    
+    <div class="container">
+
+          <h1>Please enter information here to generate a qrcode.</h1>
+          <p><form method="post" action="/generate-qr">
+          <label for="seller">Phone Number: </label>
+          <input type="text" name="seller"><br>
+
+          <label for="item">Item: </label>
+          <input type="text" name="item"><br>
+
+          <label for="price">Price: </label>
+          <input type="text" name="price"><br>
+
+          <input type="submit" value="Submit">
+        </form></p>
+
+        </div>
   </body>
 </html>

@@ -32,15 +32,11 @@ app.use(express.static('static/'));
 // use this stupid middleware to check if the user is logged before loading
 // each page, if he's not ask him to log in.
 app.use(function(req, res, next) {
-  if (req.path !== '/login' && !req.cookies.user) {
-    res.redirect('/login');
+  if (req.path!=='/login' && req.path!=='/' && !req.cookies.user) {
+    res.redirect('/');
   } else {
     next();
   }
-});
-
-app.get('/login', function(req, res) {
-  res.render('login', {success: false});
 });
 
 app.post('/login', function(req, res) {
@@ -50,13 +46,20 @@ app.post('/login', function(req, res) {
   if (USERS_PASSWORD[user] === pwd) {
     // obviously this cookie could be easily forget
     res.cookie('user', user);
-    res.render('login', {success: true, user: user});
+    res.redirect('/dashboard');
   } else {
-    res.redirect('/login');
+    res.render('index', {loginFailed: true});
   }
 });
 
-app.get('/', function(req, res) {
+app.get('/dashboard', function (req, res) {
+  res.render('dashboard', {user: req.cookies.user});
+});
+
+app.get('/', function (req, res) {
+  if (req.cookies.user) {
+      res.redirect('/dashboard');
+  }
   res.render('index');
 });
 
@@ -98,4 +101,7 @@ app.get('/make_purchase', function (req, res) {
   });
 });
 
-app.listen(3333);
+var port = process.env.PORT || 5000;
+app.listen(port, function() {
+  console.log("Listening on " + port);
+});
