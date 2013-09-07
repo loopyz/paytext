@@ -22,6 +22,12 @@ var ITEMS_COST = {
   789: 0.01,
 }
 
+var generate_qr = function (id) {
+    var link = 'paytext.herokuapp.com/purchase/' + id;
+    return 'http://chart.apis.google.com/chart?cht=qr&chs=300x300&chl=' +
+      encodeURIComponent(link);
+};
+
 app.engine('html', cons.swig);
 app.set('view engine', 'html');
 app.set('views', __dirname + '/views');
@@ -120,23 +126,15 @@ app.get('/add-item', function (req, res) {
 });
 
 app.post('/add-item', function (req, res) {
-  var note = 'Thank you for buying '+ req.body.item
-  var link = 'venmo.com/?txn=pay&amount=' + req.body.price +
-             '&note=' + encodeURIComponent(note) + '&recipients=' +
-             req.seller.phone;
-
-  var qrcode = 'http://chart.apis.google.com/chart?cht=qr&chs=300x300&chl=' +
-                encodeURIComponent(link);
 
   var item = new models.Item({
     price: req.body.price,
-    link: qrcode,
     seller: req.seller,
     description: req.body.description
   });
 
   item.save(CONNECTION, function (err) {
-    res.render('add-item', { url: qrcode});
+    res.render('add-item', { url: generate_qr(item.id)});
   });
 
 });

@@ -18,7 +18,6 @@ Item = persist.define('Item', {
   },
   'price': type.REAL,
   'description': type.STRING,
-  'link': type.STRING,
 }).hasOne(Seller, {name: 'seller_id'});
 
 exports.Seller = Seller;
