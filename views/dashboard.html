@@ -1,6 +1,165 @@
 <!doctype html>
 <html>
+  <head>
+    <link rel="stylesheet" href="//bootswatch.com/2/default/bootstrap.min.css" />
+    <link rel="stylesheet" href="//bootswatch.com/2/css/bootswatch.css" />
+    <style type="text/css">
+      .description {
+        font-family: 'HelveticaNeue-UltraLight', 'Helvetica Neue UltraLight', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+        font-weight: 100; 
+        letter-spacing: 1px;
+        font-size: 30px;
+        padding-bottom: 30px;
+      }
+
+      #header-title {
+        background-color: #666666;
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: rgba(255,255,255,0.5) 0px 3px 3px;
+    line-height: 250px;
+    font-size: 170px;
+    font-weight: 600;
+    }
+
+    .sidebar-nav {
+        margin-top: 80px;
+      }
+
+      #stats {
+        margin-top: -20px;
+      }
+
+      .kpi {
+        font-family: 'HelveticaNeue-UltraLight', 'Helvetica Neue UltraLight', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+        font-weight: 400; 
+        letter-spacing: 1px;
+        font-size: 30px;
+        padding-bottom: 10px;
+      }
+
+    </style>
+  </head>
   <body>
-    Dashboard
-  </body
+<div class="container">
+    <div class="navbar navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container">
+                <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a>
+                <a class="brand" href="./">PayText</a>
+            </div>
+        </div>
+    </div>
+
+    
+    <div class="row-fluid">
+        <div class="span3">
+          <div class="well sidebar-nav">
+            <ul class="nav nav-list">
+              <li class="nav-header">Inventory</li>
+              <li class="active"><a href="#">Add Item</a></li>
+              <li><a href="#">Delete Item</a></li>
+              <li><a href="#">Link</a></li>
+              <li><a href="#">Link</a></li>
+              <li class="nav-header">Items</li>
+              <li><a href="#">Cookies</a></li>
+              <li><a href="#">Chips</a></li>
+              <li><a href="#">Clothes</a></li>
+              <li><a href="#">Link</a></li>
+              <li><a href="#">Link</a></li>
+              <li><a href="#">Link</a></li>
+              <li class="nav-header">Sidebar</li>
+              <li><a href="#">Link</a></li>
+              <li><a href="#">Link</a></li>
+              <li><a href="#">Link</a></li>
+            </ul>
+          </div><!--/.well -->
+        </div><!--/span-->
+
+    <div class="span9" id="content-wrapper">
+            <div id="content">
+
+                <!-- Navbar
+                ================================================== -->
+                <section id="stats">
+                    <h1>Dashboard</h1>
+                  <div class="row-fluid">
+                    <div class="span3">
+                        <div class="kpi">$45,000</div>
+                        <div><small>total income</small></div>
+                    </div>
+                    <div class="span3">
+                        <div class="kpi">$213</div>
+                        <div><small>income yesterday</small></div>
+                    </div>
+                    <div class="span3">
+                        <div class="kpi">3,826</div>
+                        <div><small>total items sold</small></div>
+                    </div>
+                    <div class="span3">
+                        <div class="kpi">38</div>
+                        <div><small>items sold yesterday</small></div>
+                    </div>
+                    
+                  </div>
+                
+                  <div class="sub-header">
+                    <h2>Best Selling Items</h2>
+                  </div>
+                  <table class="table table-striped full-section table-hover">
+                    <thead>
+                      <tr>
+                        <th>Item</th>
+                        <th>Total Sales</th>
+                        <th>Sales Yesterday</th>
+                        <th>USD Today</th>
+                        <th>USD Total</th>
+                        <th>Last Sale</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="primary">Chocolate Chip</td>
+                        <td>4734</td>
+                        <td>56</td>
+                        <td>473</td>
+                        <td>3823</td>
+                        <td>December 15, 2012</td>
+                      </tr>
+                      <tr>
+                        <td class="primary">Peanut Butter</td>
+                        <td>3285</td>
+                        <td>32</td>
+                        <td>37</td>
+                        <td>3215</td>
+                        <td>December 7, 2012</td>
+                      </tr>
+                      <tr>
+                        <td class="primary">Mint</td>
+                        <td>87%</td>
+                        <td>74</td>
+                        <td>4</td>
+                        <td>3362</td>
+                        <td>December 21, 2012</td>
+                      </tr>
+                      
+                    </tbody>
+                  </table>
+                </section>
+
+                
+
+
+
+                
+
+            </div>
+        </div>
+  </body>
 </html>
