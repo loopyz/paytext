@@ -18,6 +18,8 @@ app.set('views', __dirname + '/views');
 app.use(express.cookieParser());
 app.use(express.bodyParser());
 
+app.use(express.static('static/'));
+
 // use this stupid middleware to check if the user is logged before loading
 // each page, if he's not ask him to log in.
 app.use(function(req, res, next) {
