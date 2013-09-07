@@ -28,6 +28,16 @@
       margin-top: -8px;
     }
 
+    #login-error {
+        color: red;
+        font-family: 'HelveticaNeue-UltraLight', 'Helvetica Neue UltraLight', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+        font-weight: 300; 
+        letter-spacing: 1px;
+        font-size: 15px;
+        padding-bottom: 30px;
+        margin-left: 36%;
+    }
+
     /* MARKETING CONTENT
     -------------------------------------------------- */
 
@@ -62,10 +72,9 @@
                   <input type="submit" value="Login" class="btn" id="login-button"/>
                 </form>
                 {% if loginFailed %}
-                <div clas="row">
-                  <div class="alert pull-right">
-                    <button type="button" class="close" data-dismiss="alert">&times;</button>
-                    <strong>Error!</strong> Incorrect Username/Password.
+                <div class="row">
+                  <div class="pull-right" id="login-error">
+                    <b>Error!</b> Incorrect Username/Password.
                   </div>
                 </div>
                 {% endif %}
