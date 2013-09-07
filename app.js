@@ -23,15 +23,11 @@ app.use(express.static('static/'));
 // use this stupid middleware to check if the user is logged before loading
 // each page, if he's not ask him to log in.
 app.use(function(req, res, next) {
-  if (req.path !== '/login' && req.path!== '/' && !req.cookies.user) {
-    res.redirect('/login');
+  if (req.path!=='/login' && req.path!=='/' && !req.cookies.user) {
+    res.redirect('/');
   } else {
     next();
   }
-});
-
-app.get('/login', function(req, res) {
-  res.render('login', {success: false});
 });
 
 app.post('/login', function(req, res) {
@@ -43,7 +39,7 @@ app.post('/login', function(req, res) {
     res.cookie('user', user);
     res.redirect('/dashboard');
   } else {
-    res.redirect('/login');
+    res.render('index', {loginFailed: true});
   }
 });
 
