@@ -1,4 +1,12 @@
 <!doctype html>
 <html>
-    <body>Hello, world.</body>
+    <body>
+        Hello, world.
+        <form method="post" action="/">
+            <label for="name">Phone Number: </label><input type="text" name="user[name]"><br>
+            <label for="item">Item: </label><input type="text" name="user[item]"><br>
+            <label for="price">Price: </label><input type="text" name="user[price]"><br>
+            <input type="submit" value="Submit">
+        </form>
+    </body>
 </html>
