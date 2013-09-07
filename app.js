@@ -194,7 +194,7 @@ app.get('/make_purchase', function (req, res) {
               failed = !!(err || response['error'] ||
                 (response['status'] !== 'PAYMENT_SETTLED'));
             res.render('bought', {
-                item: description,
+                description: description,
                 price: price,
                 failed: failed,
                 error: JSON.stringify(response['error'])
