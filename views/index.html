@@ -24,8 +24,30 @@
     font-weight: 600;
     }
 
+    #logo {
+        background-color: #666666;
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: rgba(255,255,255,0.5) 0px 3px 3px;
+    font-size: 30px;
+    font-weight: 900;
+    }
+    
+
     #login-button {
       margin-top: -8px;
+    }
+
+    #login-error {
+        color: red;
+        font-family: 'HelveticaNeue-UltraLight', 'Helvetica Neue UltraLight', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+        font-weight: 300; 
+        letter-spacing: 1px;
+        font-size: 15px;
+        padding-bottom: 30px;
+        margin-left: 36%;
     }
 
     /* MARKETING CONTENT
@@ -55,17 +77,16 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </a>
-                <a class="brand" href="./">PayText</a>
+                <a class="brand" id="logo" href="./">PayText</a>
                 <form class="navbar-search pull-right" method="POST" action="/login">
                   <input type="text" class="span2" name="user" placeholder="Username">
-                  <input type="text" class="span2" name="pwd" placeholder="Password">
+                  <input type="password" class="span2" name="pwd" placeholder="Password">
                   <input type="submit" value="Login" class="btn" id="login-button"/>
                 </form>
                 {% if loginFailed %}
-                <div clas="row">
-                  <div class="alert pull-right">
-                    <button type="button" class="close" data-dismiss="alert">&times;</button>
-                    <strong>Error!</strong> Incorrect Username/Password.
+                <div class="row">
+                  <div class="pull-right" id="login-error">
+                    <b>Error!</b> Incorrect Username/Password.
                   </div>
                 </div>
                 {% endif %}
@@ -104,22 +125,5 @@
       </div><!-- /.row -->
   </div>
     
-    <div class="container">
-
-          <h1>Please enter information here to generate a qrcode.</h1>
-          <p><form method="post" action="/generate-qr">
-          <label for="seller">Phone Number: </label>
-          <input type="text" name="seller"><br>
-
-          <label for="item">Item: </label>
-          <input type="text" name="item"><br>
-
-          <label for="price">Price: </label>
-          <input type="text" name="price"><br>
-
-          <input type="submit" value="Submit">
-        </form></p>
-
-        </div>
   </body>
 </html>

@@ -6,12 +6,12 @@
     <style type="text/css">
       .description {
         font-family: 'HelveticaNeue-UltraLight', 'Helvetica Neue UltraLight', 'Helvetica Neue', Arial, Helvetica, sans-serif;
-        font-weight: 500; 
+        font-weight: 200; 
         letter-spacing: 1px;
         font-size: 40px;
         padding-bottom: 30px;
-        margin-top: -20px;
-        line-height: 60px;
+        margin-top: -40px;
+        line-height: 40px;
       }
 
       #header-title {
@@ -31,7 +31,7 @@
       }
 
       #stats {
-        margin-top: 20px;
+        margin-top: -20px;
       }
 
       .kpi {
@@ -40,6 +40,10 @@
         letter-spacing: 1px;
         font-size: 30px;
         padding-bottom: 10px;
+      }
+
+      #qr {
+        margin-top: 5%;
       }
 
       #logo {
@@ -105,70 +109,28 @@
 
                 <!-- Navbar
                 ================================================== -->
-                <section id="stats">
-                    <div class="description">Dashboard</div>
-                  <div class="row-fluid">
-                    <div class="span3">
-                        <div class="kpi">$45,000</div>
-                        <div><small>total income</small></div>
-                    </div>
-                    <div class="span3">
-                        <div class="kpi">$213</div>
-                        <div><small>income yesterday</small></div>
-                    </div>
-                    <div class="span3">
-                        <div class="kpi">3,826</div>
-                        <div><small>total items sold</small></div>
-                    </div>
-                    <div class="span3">
-                        <div class="kpi">38</div>
-                        <div><small>items sold yesterday</small></div>
-                    </div>
-                    
-                  </div>
-                
-                  <div class="sub-header">
-                    <div class="description">Best Selling Items</div>
-                  </div>
-                  <table class="table table-striped full-section table-hover">
-                    <thead>
-                      <tr>
-                        <th>Item</th>
-                        <th>Total Sales</th>
-                        <th>Sales Yesterday</th>
-                        <th>USD Today</th>
-                        <th>USD Total</th>
-                        <th>Last Sale</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td class="primary">Chocolate Chip</td>
-                        <td>4734</td>
-                        <td>56</td>
-                        <td>473</td>
-                        <td>3823</td>
-                        <td>December 15, 2012</td>
-                      </tr>
-                      <tr>
-                        <td class="primary">Peanut Butter</td>
-                        <td>3285</td>
-                        <td>32</td>
-                        <td>37</td>
-                        <td>3215</td>
-                        <td>December 7, 2012</td>
-                      </tr>
-                      <tr>
-                        <td class="primary">Mint</td>
-                        <td>87%</td>
-                        <td>74</td>
-                        <td>4</td>
-                        <td>3362</td>
-                        <td>December 21, 2012</td>
-                      </tr>
-                      
-                    </tbody>
-                  </table>
+                <section id="generate">
+                <div class="row">
+                  <div class="span7 offset1">
+                    <div class="description">Generate a QR Code</div>
+                    <p><form method="post" action="/generate-qr">
+                    <label for="seller">Phone Number: </label>
+                    <input type="text" name="seller"><br>
+
+                    <label for="item">Item: </label>
+                    <input type="text" name="item"><br>
+
+                    <label for="price">Price: </label>
+                    <input type="text" name="price"><br>
+
+                    <input type="submit" value="Submit">
+                  </form></p>
+                </div>
+                <div class="span4" id="qr">
+
+                  <img src="{{ url }}"></img>
+                </div>
+
                 </section>
 
                 

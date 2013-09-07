@@ -35,7 +35,8 @@ app.use(express.static('static/'));
 // use this stupid middleware to check if the user is logged before loading
 // each page, if he's not ask him to log in.
 app.use(function(req, res, next) {
-  if (req.path!=='/login' && req.path!=='/' && !req.cookies.user) {
+  if (req.path!=='/login' && req.path!=='/' && req.path!='/signup' &&
+      !req.cookies.user) {
     res.redirect('/');
   } else {
     next();
@@ -55,8 +56,35 @@ app.post('/login', function(req, res) {
   }
 });
 
+app.get('/signup', function (req, res) {
+  res.render('signup');
+});
+
+app.post('/signup', function (req, res) {
+  var user = req.body.user,
+  pwd = req.body.pwd,
+  repwd = req.body.repwd;
+
+  //confirm the same password is entered twice
+  if (pwd!==repwd) {
+    res.render('signup', {error: 'Please enter the same password twice'});
+    return;
+  }
+
+  //add user to database
+
+
+  //redirect them somewhere useful
+  res.cookie('user', user);
+  res.redirect('/dashboard');
+});
+
 app.get('/dashboard', function (req, res) {
   res.render('dashboard', {user: req.cookies.user});
+});
+
+app.get('/generate', function (req, res) {
+  res.render('generate', {user: req.cookies.user});
 });
 
 app.get('/', function (req, res) {
@@ -74,7 +102,7 @@ app.post('/generate-qr', function (req, res) {
 
   var qrcode = 'http://chart.apis.google.com/chart?cht=qr&chs=300x300&chl=' +
                 encodeURIComponent(link);
-    res.render('qrcode', { url: qrcode});
+    res.render('generate', { url: qrcode});
 });
 
 app.get('/purchase/:id', function (req, res) {

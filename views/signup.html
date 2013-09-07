@@ -41,22 +41,17 @@
     </head>
     <!-- TODO(alexisd): make proper templates w/ inheritance... -->
     <body>
-        {% if success %}
-            You're successfully logged in as {{user}}
-        {% else %}
-            <div class="container">
-                <form class="form-signin" method="POST" action="/login">
-                    <h2 class="form-signin-heading">Please sign in</h2>
-                    <input type="text" class="input-block-level" name="user" placeholder="Username">
-                    <input type="password" class="input-block-level" name="pwd" placeholder="Password">
-                    <label class="checkbox">
-                        <input type="checkbox" value="remember-me"> Remember me
-                    </label>
-                    <button class="btn btn-large btn-primary" type="submit">Sign in</button>
-                </form>
-            </div>
+      <div class="container">
+        {% if error %}
+          {{ error }}
         {% endif %}
-        
-
+        <form class="form-signin" method="POST" action="/signup">
+          <input type="text" class="input-block-level" name="user" placeholder="Username">
+          <input type="password" class="input-block-level" name="pwd" placeholder="Password">
+          <label for="repwd"></label>
+          <input type="password" class="input-block-level" name="repwd" placeholder="Retype Password">
+          <button class="btn btn-large btn-primary" type="submit">Sign up</button>
+        </form>
+      </div>
     </body>
 </html>
