@@ -1,0 +1,7 @@
+{{ item }} - ${{ cost }}
+
+{% if failed %}
+    failed - {{ error }}
+{% else %}
+    succeeded
+{% endif %}
