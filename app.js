@@ -141,6 +141,10 @@ app.get('/qrcodes', function (req, res) {
 
   models.Item.where('sellerId = ?', req.seller.id).all(CONNECTION,
       function (err, items) {
+        items.forEach(function (item) {
+            item.link = generate_qr(item.id);
+        });
+
         res.render('qrcodes', {user: req.cookies.user, items: items});
       });
 });

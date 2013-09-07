@@ -134,15 +134,19 @@
                       {% endif %}
                       <div class="span4">
                         <a href="#">
-                          <img class="qr-image" src="http://chart.apis.google.com/chart?cht=qr&chs=150x150&chl=lucy.ws&chld=H|0" />
+                          <img class="qr-image" src="{{ item.link }}" />
                           <div class="item-name">{{item.id}}.{{ item.description }} - ${{ item.price }}</div>
                         </a>
                       </div>
                       {% if loop.index%3== 2 %}
                         </div>
-                      {% endif %}
+                        {% endif %}
+                        {% endfor %}
+                    </div>
                 </section>
             </div>
+          </div>
         </div>
+      </div>
   </body>
 </html>
