@@ -134,7 +134,29 @@ app.post('/add-item', function (req, res) {
 });
 
 app.get('/delete-item', function (req, res) {
-  res.render('delete-item', {user: req.cookies.user});
+
+  models.Item.where('sellerId = ?', req.seller.id).all(CONNECTION,
+      function (err, items) {
+        res.render('delete-item', {user: req.cookies.user, items: items});
+      });
+});
+
+app.post('/delete-item', function (req, res) {
+  var deleteLen = req.body.deleteItems.length;
+
+  req.body.deleteItems.forEach(function (id) {
+    models.Item.getById(CONNECTION, id, function (err, item) {
+      item.delete(CONNECTION, function (err) {
+        deleteLen--;
+        if (deleteLen===0) {
+          models.Item.where('sellerId = ?', req.seller.id).all(CONNECTION,
+            function (err, items) {
+              res.render('delete-item', {user: req.cookies.user, items: items});
+            });
+        }
+      });
+    });
+  });
 });
 
 app.get('/qrcodes', function (req, res) {
