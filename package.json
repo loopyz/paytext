@@ -1,0 +1,11 @@
+{
+    "name": "paytext",
+    "version": "0.0.1",
+    "author": "Lucy Guo, Alexis Daboville, Niveditha Jayasekar",
+    "description": "blah",
+    "dependencies" : {
+        "express": ">= 3.0.4",
+        "consolidate": ">= 0.9.1",
+        "swig": ">= 0.12.0"
+    }
+}
