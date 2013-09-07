@@ -78,10 +78,14 @@
                     <span class="icon-bar"></span>
                 </a>
                 <a class="brand" id="logo" href="./">PayText</a>
+                
+                <div class="pull-right">
+                    Not registered? <br><a href="/signup">Sign up</a> now!
+                </div>
                 <form class="navbar-search pull-right" method="POST" action="/login">
                   <input type="text" class="span2" name="user" placeholder="Username">
                   <input type="password" class="span2" name="pwd" placeholder="Password">
-                  <input type="submit" value="Login" class="btn" id="login-button"/>
+                  <input type="submit" style="margin-right: 10px;" value="Login" class="btn" id="login-button"/>
                 </form>
                 {% if loginFailed %}
                 <div class="row">
