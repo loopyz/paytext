@@ -122,7 +122,7 @@
                 <!-- Navbar
                 ================================================== -->
                 <section id="stats">
-                  <div class="description">{{ item.description }}</div>
+                <div class="description">{{ item.description }} - ${{ item.price }}</div>
                     <div class="row">
                       <div class="span7">
                         <img src="{{ graphurl }}" style="width: 500px; height: 300px;">
@@ -131,13 +131,13 @@
                         <div class="item-name">total stock sold: {{total_quantity}}</div>
                       </div>
                       <div class="span5">
-                        <div class="item-name">stock sold today {{today_quantity}}</div>
+                        <div class="item-name">stock sold today: {{today_quantity}}</div>
                       </div>
                       <div class="span5">
                         <div class="item-name">total revenue: ${{total_revenue}}</div>
                       </div>
                       <div class="span5">
-                        <div class="item-name">revenue from today: ${{today_revenue}}</div>
+                        <div class="item-name">today's revenue: ${{today_revenue}}</div>
                       </div>
                     </div>                
                   

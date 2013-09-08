@@ -232,6 +232,7 @@ app.get('/item/:id', function (req, res) {
 
   var imageUrl = chart.getUrl(true);
 
+  models.Item.getById(CONNECTION, req.params.id, function (err, item) {
   models.Sale.where('item_id = ?', req.params.id).count(CONNECTION,
       function (err, total_quantity) {
         models.Sale.where('item_id = ?', req.params.id).sum(CONNECTION, 'price',
@@ -250,7 +251,7 @@ app.get('/item/:id', function (req, res) {
                                 total_revenue: total_revenue || 0,
                                 today_revenue: res_revenue[0].revenue || 0,
                                 graphurl: imageUrl,
-                                items: items,
+                                item: item,
                                 sidebar_items: items
                               });
                             });
@@ -258,6 +259,7 @@ app.get('/item/:id', function (req, res) {
                   });
             });
       });
+  });
 
 });
 
