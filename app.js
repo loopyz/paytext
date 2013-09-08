@@ -185,7 +185,6 @@ app.get('/item/:id', function (req, res) {
 
   var imageUrl = chart.getUrl(true);
 
-  console.log(imageUrl);
 
   models.Sale.where('item_id = ?', req.params.id).count(CONNECTION,
       function (err, total_quantity) {
@@ -254,7 +253,6 @@ app.get('/make_purchase', function (req, res) {
             var response = JSON.parse(body),
               failed = !!(err || response['error'] ||
                 (response['status'] !== 'PAYMENT_SETTLED'));
-
             if (!failed) {
               var sale = new models.Sale({
                 seller_id: seller.id,
@@ -360,7 +358,7 @@ persist.connect({
             var seller = new models.Seller({
               name: 'admin',
               pwd: 'admin',
-              phone: '655-555-5555'
+              phone: '9255968005'
             });
 
             seller.save(conn, function (err) {
