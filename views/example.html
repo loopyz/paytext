@@ -9,6 +9,26 @@
         </style>
 
         <script src="/jquery-2.0.3.min.js" /></script>
+        <script>
+            var updateCount = function () {
+              var count = 0;
+              $('select').each(function () {
+                  count += parseFloat($(this).val());
+              });
+
+              count = count.toFixed(2);
+
+              $('#thatsalotofmoney').text(count);
+              $('#magic').attr('href',
+                "/api/bake_cookies/4087181204?payee_id=john&amount=" + count
+              );
+            };
+
+            $(function () {
+                updateCount();
+                $('select').change(updateCount);
+            });
+        </script>
     </head>
     <body>
             <div class="container" style="width:60%">
@@ -63,8 +83,8 @@
           </tr>
         </tbody>
       </table>
-      <h3>Total: </h3><br>
-      <a class="btn btn-block btn-success btn-large" href="/api/bake_cookies/4087181204?amount=0.01&payee_id=john" onclick="GetSelectedItem();">Place order</a>
+      <h3>Total: $<span id="thatsalotofmoney"></span></h3><br>
+      <a class="btn btn-block btn-success btn-large" id="magic" href=>Place order</a>
     </div>
   
  </body>
