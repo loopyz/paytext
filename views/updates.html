@@ -7,16 +7,17 @@
         font-family: 'HelveticaNeue-UltraLight', 'Helvetica Neue UltraLight', 'Helvetica Neue', Arial, Helvetica, sans-serif;
         font-weight: 200; 
         letter-spacing: 1px;
-        font-size: 40px;
+        font-size: 80px;
         padding-bottom: 30px;
-        line-height: 40px;
+        line-height: 90px;
+        padding-top: 30px;
       }
 
       .result {
         font-family: 'HelveticaNeue-UltraLight', 'Helvetica Neue UltraLight', 'Helvetica Neue', Arial, Helvetica, sans-serif;
         font-weight: 200; 
         letter-spacing: 1px;
-        font-size: 30px;
+        font-size: 40px;
         padding-bottom: 20px;
         margin-top: 0px;
         line-height: 50px;
@@ -25,14 +26,15 @@
     </style>
   </head>
     <body>
-        <div class="container" style="width:60%">
-          <div id="name">{{ payee_id }}</name>
+        <div class="container" style="width:60%"><center>
+          <div id="name">name: {{ payee_id }}</name>
           <ul id="updates">
 
           </ul>
 
           <script src="/socket.io/socket.io.js"></script>
           <script src="/jquery-2.0.3.min.js" /></script>
+          <div class="hero-unit">
           <script>
               var socket = io.connect('/');
               socket.emit('sub', '{{ payee_id }}');
@@ -46,7 +48,7 @@
                 '<div class="result"><li>You just got paid $' + data.amount + '!</li></div>'
                 );
               });
-          </script>
-        </div>
+          </script></div>
+        </div></center>
     </body>
 </html>
