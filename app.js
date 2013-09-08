@@ -19,6 +19,13 @@ var generate_qr = function (id) {
       encodeURIComponent(link);
 };
 
+var get_items = function (seller_id, callback) {
+  models.Item.where('sellerId = ?', seller_id).all(CONNECTION,
+      function (err, items) {
+        callback(items);
+      });
+};
+
 app.engine('html', cons.swig);
 app.set('view engine', 'html');
 app.set('views', __dirname + '/views');
@@ -114,11 +121,21 @@ app.get('/', function (req, res) {
 });
 
 app.get('/dashboard', function (req, res) {
-  res.render('dashboard', {user: req.cookies.user});
+  get_items(req.seller.id, function (items) {
+    res.render('dashboard', {
+        user: req.cookies.user,
+        sidebar_items: items
+    });
+  });
 });
 
 app.get('/add-item', function (req, res) {
-  res.render('add-item', {user: req.cookies.user});
+  get_items(req.seller.id, function (items) {
+    res.render('add-item', {
+        user: req.cookies.user,
+        sidebar_items: items
+    });
+  });
 });
 
 app.post('/add-item', function (req, res) {
@@ -130,30 +147,56 @@ app.post('/add-item', function (req, res) {
   });
 
   item.save(CONNECTION, function (err) {
-    res.render('add-item', { url: generate_qr(item.id)});
+      get_items(req.seller.id, function (items) {
+        res.render('add-item', {
+            user: req.cookies.user,
+            sidebar_items: items,
+            url: generate_qr(item.id)
+        });
+      });
   });
 
 });
 
 app.get('/delete-item', function (req, res) {
 
-  models.Item.where('sellerId = ?', req.seller.id).all(CONNECTION,
-      function (err, items) {
-        res.render('delete-item', {user: req.cookies.user, items: items});
+    get_items(req.seller.id, function (items) {
+      res.render('delete-item', {
+          user: req.cookies.user,
+          items: items,
+          sidebar_items: items
       });
+    });
 });
 
 app.post('/delete-item', function (req, res) {
-  var deleteLen = req.body.deleteItems.length;
+  var deleteLen,
+    deleteItems;
 
-  req.body.deleteItems.forEach(function (id) {
+
+  if (req.body.deleteItems instanceof Array) {
+    deleteLen = req.body.deleteItems ? req.body.deleteItems.length : 0;
+    deleteItems = req.body.deleteItems;
+  }
+  else if (req.body.deleteItems) {
+    deleteLen = 1;
+    deleteItems = [req.body.deleteItems];
+  } else {
+    deleteLen = 0;
+    deleteItems = [];
+  }
+
+  deleteItems.forEach(function (id) {
     models.Item.getById(CONNECTION, id, function (err, item) {
       item.delete(CONNECTION, function (err) {
         deleteLen--;
         if (deleteLen===0) {
-          models.Item.where('sellerId = ?', req.seller.id).all(CONNECTION,
-            function (err, items) {
-              res.render('delete-item', {user: req.cookies.user, items: items});
+            get_items(req.seller.id, function (items) {
+              res.render('delete-item', {
+                  user: req.cookies.user,
+                  items: items,
+                  sidebar_items: items
+              });
             });
         }
       });
@@ -169,7 +212,11 @@ app.get('/qrcodes', function (req, res) {
             item.link = generate_qr(item.id);
         });
 
-        res.render('qrcodes', {user: req.cookies.user, items: items});
+        res.render('qrcodes', {
+            user: req.cookies.user,
+            items: items,
+            sidebar_items: items
+        });
       });
 });
 
@@ -185,7 +232,6 @@ app.get('/item/:id', function (req, res) {
 
   var imageUrl = chart.getUrl(true);
 
-
   models.Sale.where('item_id = ?', req.params.id).count(CONNECTION,
       function (err, total_quantity) {
         models.Sale.where('item_id = ?', req.params.id).sum(CONNECTION, 'price',
@@ -196,18 +242,23 @@ app.get('/item/:id', function (req, res) {
                       CONNECTION.runSqlAll("SELECT SUM('price') as revenue FROM Sales " +
                           " WHERE item_id=? AND time_created>date('now')",
                           [req.params.id], function (err, res_revenue) {
-                            res.render('item', {
-                              user: req.cookies.user,
-                              total_quantity: total_quantity || 0,
-                              today_quantity: res_quantity[0].quantity || 0,
-                              total_revenue: total_revenue || 0,
-                              today_revenue: res_revenue[0].revenue || 0,
-                              graphurl: imageUrl
+                            get_items(req.seller.id, function (items) {
+                              res.render('item', {
+                                user: req.cookies.user,
+                                total_quantity: total_quantity || 0,
+                                today_quantity: res_quantity[0].quantity || 0,
+                                total_revenue: total_revenue || 0,
+                                today_revenue: res_revenue[0].revenue || 0,
+                                graphurl: imageUrl,
+                                items: items,
+                                sidebar_items: items
+                              });
                             });
                           });
                   });
             });
       });
+
 });
 
 app.get('/', function (req, res) {
