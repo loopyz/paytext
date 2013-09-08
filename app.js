@@ -225,7 +225,7 @@ app.get('/item/:id', function (req, res) {
 
   var chart = quiche('line');
   chart.setTitle('Items Sold');
-  chart.addData([23, 33, 32, 55, 48, 66, 83, 21, 64], "Cookie", '999999');
+  chart.addData([0, 1, 1, 2, 3, 5, 8, 13, 21], "Cookie", '999999');
   chart.addAxisLabels('x', ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept']);
   chart.setAutoScaling();
   chart.setTransparentBackground();
@@ -331,7 +331,7 @@ app.get('/api/bake_cookies/:payee_phone', function (req, res) {
   var payee_phone = req.params.payee_phone,
     amount = req.query.amount,
     payee_id = req.query.payee_id,
-    link = 'localhost:5000/api/pay';
+    link = 'paytext.herokuapp.com:5000/api/pay';
 
   res.cookie('api_amount', amount);
   res.cookie('api_payee_phone', payee_phone);
@@ -383,6 +383,9 @@ app.get('/api/updates/:payee_id', function (req, res) {
 });
 
 app.get('/example', function (req, res) {
+  //var e = document.getElementById("ddlViewBy");
+  //var strUser = e.options[e.selectedIndex].value;
+  //console.log("OH HEY: " + strUser);
   res.render('example');
 });
 
