@@ -173,7 +173,7 @@ app.get('/qrcodes', function (req, res) {
       });
 });
 
-app.get('/item', function (req, res) {
+app.get('/item/:id', function (req, res) {
   var quiche = require('quiche');
 
   var chart = quiche('line');
@@ -187,10 +187,28 @@ app.get('/item', function (req, res) {
 
   console.log(imageUrl);
 
-  res.render('item', {user: req.cookies.user, graphurl: imageUrl});
-
-
-
+  models.Sale.where('item_id = ?', req.params.id).count(CONNECTION,
+      function (err, total_quantity) {
+        models.Sale.where('item_id = ?', req.params.id).sum(CONNECTION, 'price',
+            function (err, total_revenue) {
+              CONNECTION.runSqlAll("SELECT COUNT(*) as quantity FROM Sales WHERE item_id=?" +
+                  " AND time_created>date('now')", [req.params.id],
+                  function (err, res_quantity) {
+                      CONNECTION.runSqlAll("SELECT SUM('price') as revenue FROM Sales " +
+                          " WHERE item_id=? AND time_created>date('now')",
+                          [req.params.id], function (err, res_revenue) {
+                            res.render('item', {
+                              user: req.cookies.user,
+                              total_quantity: total_quantity || 0,
+                              today_quantity: res_quantity[0].quantity || 0,
+                              total_revenue: total_revenue || 0,
+                              today_revenue: res_revenue[0].revenue || 0,
+                              graphurl: imageUrl
+                            });
+                          });
+                  });
+            });
+      });
 });
 
 app.get('/', function (req, res) {
@@ -235,6 +253,18 @@ app.get('/make_purchase', function (req, res) {
             var response = JSON.parse(body),
               failed = !!(err || response['error'] ||
                 (response['status'] !== 'PAYMENT_SETTLED'));
+
+            if (!failed) {
+              var sale = new models.Sale({
+                seller_id: seller.id,
+                item_id: item.id,
+                price: item.price
+              });
+
+              sale.save(CONNECTION, function (err) {
+                //do nothing
+              });
+            }
             res.render('bought', {
                 description: description,
                 price: price,
@@ -324,22 +354,34 @@ persist.connect({
 
     conn.runSql("CREATE TABLE Sellers (id integer primary key autoincrement, name text, pwd text, phone text)", [], function (err, results) {
         conn.runSql("CREATE TABLE Items (id integer primary key autoincrement, price real, description text, seller_id integer, FOREIGN KEY(seller_id) REFERENCES Seller(id))", [], function (err2, results2) {
-          var server = require('http').createServer(app);
-          server.listen(port, function() {
-            console.log("Listening on " + port);
-          });
-          IO = io.listen(server);
+          conn.runSql("CREATE TABLE Sales (id integer primary key autoincrement, time_created datetime default current_timestamp, item_id integer, price id integer, seller_id integer)", [], function (err3, results3) {
+            var seller = new models.Seller({
+              name: 'admin',
+              pwd: 'admin',
+              phone: '655-555-5555'
+            });
 
-          IO.configure(function () {
-            IO.set("transports", ["xhr-polling"]);
-            IO.set("polling duration", 10);
-          });
+            seller.save(conn, function (err) {
+              var server = require('http').createServer(app);
+              server.listen(port, function() {
+                console.log("Listening on " + port);
+              });
 
-          IO.sockets.on('connection', function (socket) {
-            socket.on('sub', function (data) {
-              socket.join(data);
+              IO = io.listen(server);
+
+              IO.configure(function () {
+                IO.set("transports", ["xhr-polling"]);
+                IO.set("polling duration", 10);
+              });
+
+              IO.sockets.on('connection', function (socket) {
+                socket.on('sub', function (data) {
+                  socket.join(data);
+                });
+              });
             });
           });
+
         });
     });
   }
