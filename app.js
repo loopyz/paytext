@@ -172,7 +172,23 @@ app.get('/qrcodes', function (req, res) {
 });
 
 app.get('/item', function (req, res) {
-  res.render('item', {user: req.cookies.user});
+  var quiche = require('quiche');
+
+  var chart = quiche('line');
+  chart.setTitle('Items Sold');
+  chart.addData([23, 33, 32, 55, 48, 66, 83, 21, 64], 'Cookies', '999999');
+  chart.addAxisLabels('x', ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept']);
+  chart.setAutoScaling();
+  chart.setTransparentBackground();
+
+  var imageUrl = chart.getUrl(true);
+
+  console.log(imageUrl);
+
+  res.render('item', {user: req.cookies.user, graphurl: imageUrl});
+
+
+
 });
 
 app.get('/', function (req, res) {
