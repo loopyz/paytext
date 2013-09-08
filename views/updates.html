@@ -28,23 +28,22 @@
     <body>
         <div class="container" style="width:60%"><center>
           <div id="name">name: {{ payee_id }}</name>
-          <ul id="updates">
-
-          </ul>
 
           <script src="/socket.io/socket.io.js"></script>
           <script src="/jquery-2.0.3.min.js" /></script>
           <div class="hero-unit">
+            <ul id="updates">
+            </ul>
           <script>
               var socket = io.connect('/');
               socket.emit('sub', '{{ payee_id }}');
               socket.on('fail', function (data) {
-                $('.hero-unit').prepend(
+                $('#updates').prepend(
                 '<div class="result"><li>customer didn\'t pay :(!</li></div>'
                 );
               });
               socket.on('payment', function (data) {
-                $('.hero-unit').prepend(
+                $('#updates').prepend(
                 '<div class="result"><li>You just got paid $' + data.amount + '!</li></div>'
                 );
               });
