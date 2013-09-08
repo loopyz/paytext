@@ -171,56 +171,30 @@
                     <div class="row">
                       <div class="description">Delete Items</div>
                     </div>
+                    <form action="/delete-item" method="post">
+                    {% for item in items %}
                     <div class="row">
                       <div class="span1">
                         <div class="squaredFour">
-                          <input type="checkbox" value="None" id="squaredFour" name="check" />
-                          <label for="squaredFour"></label>
+                          <input type="checkbox" value="{{ item.id }}" id="sF{{loop.index}}" name="deleteItems" />
+                          <label for="sF{{loop.index}}"></label>
                         </div>
                       </div>
                       <div class="span10">
-                        <div class="item-name">Chocolate Chip Cookies</div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="span1">
-                        <div class="squaredFour">
-                          <input type="checkbox" value="None" id="squaredFour1" name="check" />
-                          <label for="squaredFour1"></label>
+                        <div class="item-name">
+                          {{ item.description }} - ${{ item.price }}
                         </div>
                       </div>
-                      <div class="span10">
-                        <div class="item-name">Peanut Butter Cookies</div>
-                      </div>
                     </div>
+                    {% endfor %}
                     <div class="row">
-                      <div class="span1">
-                        <div class="squaredFour">
-                          <input type="checkbox" value="None" id="squaredFour2" name="check" />
-                          <label for="squaredFour2"></label>
-                        </div>
-                      </div>
-                      <div class="span10">
-                        <div class="item-name">SnickerDoodles</div>
-                      </div>
+                      <input type="submit" class="btn btn-large" value="Delete Items" />
                     </div>
-                    <div class="row">
-                      <input type="submit" class="btn btn-large" value="Delete Items"/>
-                    </div>
-
-
+                  </form>
+                  </div>
                 </div>
-
-
-              </div>
-      
-
                 </section>
             </div>
-
-                
-
-
-
+        </div>
     </body>
 </html>
