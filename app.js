@@ -238,10 +238,10 @@ app.get('/item/:id', function (req, res) {
         models.Sale.where('item_id = ?', req.params.id).sum(CONNECTION, 'price',
             function (err, total_revenue) {
               CONNECTION.runSqlAll("SELECT COUNT(*) as quantity FROM Sales WHERE item_id=?" +
-                  " AND time_created>date('now')", [req.params.id],
+                  " AND time_created>='2013-09-08'", [req.params.id],
                   function (err, res_quantity) {
                       CONNECTION.runSqlAll("SELECT SUM('price') as revenue FROM Sales " +
-                          " WHERE item_id=? AND time_created>date('now')",
+                          " WHERE item_id=? AND time_created>='2013-09-08'",
                           [req.params.id], function (err, res_revenue) {
                             get_items(req.seller.id, function (items) {
                               res.render('item', {
