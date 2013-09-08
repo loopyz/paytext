@@ -20,5 +20,17 @@ Item = persist.define('Item', {
   'description': type.STRING,
 }).hasOne(Seller, {name: 'seller_id'});
 
+Sale = persist.define('Sale', {
+  'id': {
+      type: type.INTEGER,
+      primaryKey: true
+  },
+  'time_created': type.DATETIME,
+  'item_id': type.INTEGER,
+  'price': type.REAL,
+  'seller_id': type.INTEGER,
+});
+
 exports.Seller = Seller;
 exports.Item = Item;
+exports.Sale = Sale;
