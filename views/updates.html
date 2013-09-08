@@ -39,12 +39,12 @@
               var socket = io.connect('/');
               socket.emit('sub', '{{ payee_id }}');
               socket.on('fail', function (data) {
-                $('#updates').prepend(
+                $('.hero-unit').prepend(
                 '<div class="result"><li>customer didn\'t pay :(!</li></div>'
                 );
               });
               socket.on('payment', function (data) {
-                $('#updates').prepend(
+                $('.hero-unit').prepend(
                 '<div class="result"><li>You just got paid $' + data.amount + '!</li></div>'
                 );
               });
