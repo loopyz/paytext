@@ -332,6 +332,9 @@ app.get('/api/updates/:payee_id', function (req, res) {
 });
 
 app.get('/example', function (req, res) {
+  //var e = document.getElementById("ddlViewBy");
+  //var strUser = e.options[e.selectedIndex].value;
+  //console.log("OH HEY: " + strUser);
   res.render('example');
 });
 

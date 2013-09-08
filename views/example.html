@@ -1,1 +1,72 @@
-<a href="/api/bake_cookies/4087181204?amount=0.01&payee_id=john">Pay nive $.01 (cashier: john)</a>
+<html>
+    <head>
+        <link rel="stylesheet" href="/css/bootstrap.min.css" />
+        <style type="text/css">
+            .thumb {
+                width: 150px;
+                height: 150px;
+            }
+        </style>
+
+        <script src="/jquery-2.0.3.min.js" /></script>
+    </head>
+    <body>
+            <div class="container" style="width:60%">
+      <h1>Shop For Stuff</h1>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>
+              <h3>Items</h3>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><img class="thumb" src="http://bortonia.files.wordpress.com/2011/05/cookies-14.jpg"/></td>
+            <td>Amount</td>
+            <td>
+              <select id="cookie" class="span1">
+                <option value=".01">1</option>
+                <option value=".02">2</option>
+                <option value=".03">3</option>
+                <option value=".04">4</option>
+                <option value=".05">5</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td><img class="thumb" src="http://www.gulfcoastseabreeze.com/wp-content/themes/directorypress1/thumbs/cupcake.jpg" /></td>
+            <td>Amount</td>
+            <td>
+              <select id="cupcake" class="span1">
+                <option value=".01">1</option>
+                <option value=".02">2</option>
+                <option value=".03">3</option>
+                <option value=".04">4</option>
+                <option value=".05">5</option>
+              </select> 
+            </td>
+          </tr>
+          <tr>
+            <td><img class="thumb" src="http://images5.fanpop.com/image/photos/28800000/Ryan-Gosling-ryan-gosling-28878581-160-150.gif" /></td>
+            <td>Amount</td>
+            <td>
+              <select id="ryan" class="span1">
+                <option value=".01">1</option>
+                <option value=".02">2</option>
+                <option value=".03">3</option>
+                <option value=".04">4</option>
+                <option value=".05">5</option>
+              </select> 
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <h3>Total: </h3><br>
+      <a class="btn btn-block btn-success btn-large" href="/api/bake_cookies/4087181204?amount=0.01&payee_id=john" onclick="GetSelectedItem();">Place order</a>
+    </div>
+  
+ </body>
+ </html>
+

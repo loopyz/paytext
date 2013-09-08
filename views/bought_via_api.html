@@ -1,5 +1,52 @@
-{% if failed %}
-too bad it failed
-{% else %}
-it worked
-{% endif %}
+<html>
+  <head>
+    <style type="text/css">
+        #wrapper h1{
+          font-family: 'HelveticaNeue-UltraLight', 'Helvetica Neue UltraLight', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+          font-weight: 200; 
+          font-size: 30px;
+          color:black;
+          padding-top: 20%;
+        }
+
+        #error {
+          font-family: 'HelveticaNeue-UltraLight', 'Helvetica Neue UltraLight', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+          font-weight: 200; 
+          font-size: 30px;
+          color:red;
+          padding-top: 20%;
+        }
+
+
+        @media (min-width: 481px) and (max-width: 767px) {
+
+          #wrapper h1{
+            font-family: 'HelveticaNeue-UltraLight', 'Helvetica Neue UltraLight', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+            font-weight: 200; 
+            font-size: 30px;
+            color:black;
+            padding-top: 20%;
+          }
+
+          #error {
+            font-family: 'HelveticaNeue-UltraLight', 'Helvetica Neue UltraLight', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+            font-weight: 200; 
+            font-size: 30px;
+            color:red;
+            padding-top: 20%;
+          }
+
+        }
+
+    </style>
+</head>
+<body>
+    <div id="wrapper">
+        {% if failed %}
+        <center><div id="error">too bad it failed</div></center>
+        {% else %}
+        <h1><center>it worked</center></h1>
+        {% endif %}
+    </div>
+</body>
+</html>
