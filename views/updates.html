@@ -1,25 +1,52 @@
 <!doctype>
 <html>
-    <body>
-        <h1>{{ payee_id }}</h1>
-        <ul id="updates">
+  <head>
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    <style type="text/css">
+      #name {
+        font-family: 'HelveticaNeue-UltraLight', 'Helvetica Neue UltraLight', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+        font-weight: 200; 
+        letter-spacing: 1px;
+        font-size: 40px;
+        padding-bottom: 30px;
+        line-height: 40px;
+      }
 
-        </ul>
-        <script src="/socket.io/socket.io.js"></script>
-        <script src="/jquery-2.0.3.min.js" /></script>
-        <script>
-            var socket = io.connect('/');
-            socket.emit('sub', '{{ payee_id }}');
-            socket.on('fail', function (data) {
-              $('#updates').prepend(
-              '<li>customer didn\'t pay :(!</li>'
-              );
-            });
-            socket.on('payment', function (data) {
-              $('#updates').prepend(
-              '<li>You just got paid $' + data.amount + '!</li>'
-              );
-            });
-        </script>
+      .result {
+        font-family: 'HelveticaNeue-UltraLight', 'Helvetica Neue UltraLight', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+        font-weight: 200; 
+        letter-spacing: 1px;
+        font-size: 30px;
+        padding-bottom: 20px;
+        margin-top: 0px;
+        line-height: 50px;
+        color: grey;
+      }
+    </style>
+  </head>
+    <body>
+        <div class="container" style="width:60%">
+          <div id="name">{{ payee_id }}</name>
+          <ul id="updates">
+
+          </ul>
+
+          <script src="/socket.io/socket.io.js"></script>
+          <script src="/jquery-2.0.3.min.js" /></script>
+          <script>
+              var socket = io.connect('/');
+              socket.emit('sub', '{{ payee_id }}');
+              socket.on('fail', function (data) {
+                $('#updates').prepend(
+                '<div class="result"><li>customer didn\'t pay :(!</li></div>'
+                );
+              });
+              socket.on('payment', function (data) {
+                $('#updates').prepend(
+                '<div class="result"><li>You just got paid $' + data.amount + '!</li></div>'
+                );
+              });
+          </script>
+        </div>
     </body>
 </html>
