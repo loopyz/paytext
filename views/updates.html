@@ -1,0 +1,25 @@
+<!doctype>
+<html>
+    <body>
+        <h1>{{ payee_id }}</h1>
+        <ul id="updates">
+
+        </ul>
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="/jquery-2.0.3.min.js" /></script>
+        <script>
+            var socket = io.connect('/');
+            socket.emit('sub', '{{ payee_id }}');
+            socket.on('fail', function (data) {
+              $('#updates').prepend(
+              '<li>customer didn\'t pay :(!</li>'
+              );
+            });
+            socket.on('payment', function (data) {
+              $('#updates').prepend(
+              '<li>You just got paid $' + data.amount + '!</li>'
+              );
+            });
+        </script>
+    </body>
+</html>

@@ -2,14 +2,16 @@ var express = require('express'),
   cons = require('consolidate'),
   request = require('request'),
   persist = require('persist'),
+  io = require('socket.io'),
   models = require('./models');
 
-var app = express();
+var app = express(),
+  IO;
 
 var CONNECTION = null;
 
 //anyone can access the following pages
-var ALL_ACCESS = ['/', '/login', '/signup', '/purchase', '/make_purchase'];
+var ALL_ACCESS = ['/', '/login', '/signup', '/purchase', '/make_purchase', '/api'];
 
 var generate_qr = function (id) {
     var link = 'paytext.herokuapp.com/purchase/' + id;
@@ -207,12 +209,71 @@ app.get('/make_purchase', function (req, res) {
 
 });
 
+app.get('/api/bake_cookies/:payee_phone', function (req, res) {
+  var payee_phone = req.params.payee_phone,
+    amount = req.query.amount,
+    payee_id = req.query.payee_id,
+    link = 'localhost:5000/api/pay';
+
+  res.cookie('api_amount', amount);
+  res.cookie('api_payee_phone', payee_phone);
+  res.cookie('api_payee_id', payee_id);
+
+  res.redirect(
+    'https://api.venmo.com/oauth/authorize?client_id=1362&scope=make_payments&response_type=token'
+  );
+});
+
+app.get('/api/pay', function (req, res) {
+  var amount = req.cookies.api_amount,
+    payee_phone = req.cookies.api_payee_phone,
+    payee_id = req.cookies.api_payee_id,
+    d = new Date();
+
+  res.cookie('api_amount', '');
+  res.cookie('api_payee_phone', '');
+  res.cookie('api_payee_id', '');
+
+  request.post(
+    'https://api.venmo.com/payments',
+    { form: {
+      access_token: req.query.access_token,
+      phone: payee_phone,
+      note: 'Bought some stuff at ' + d.getHours() + ':' +
+        d.getMinutes() + ':' + d.getSeconds(),
+      amount: amount,
+    }}
+  , function (err, response, body) {
+    var response = JSON.parse(body),
+      failed = !!(err || response['error'] || (response['status'] !== 'PAYMENT_SETTLED'));
+
+    if (failed) {
+      res.render('bought_via_api', {failed: failed, error: JSON.stringify(response['error'])});
+      IO.sockets.in(req.query.payee_id).emit('fail', {});
+    } else {
+      res.render('bought_via_api', {failed: failed});
+      IO.sockets.in(req.query.payee_id).emit('payment', {amount: amount});
+    }
+  });
+
+});
+
+app.get('/api/updates/:payee_id', function (req, res) {
+  // TODO: auth...
+  res.render('updates', {payee_id: req.params.payee_id});
+});
+
+app.get('/example', function (req, res) {
+  res.render('example');
+});
+
 app.get('/logout', function (req, res) {
   res.cookie('user', '');
   res.redirect('/');
 });
 
 var port = process.env.PORT || 5000;
+
 persist.connect({
   driver: 'sqlite3',
   filename: ':memory:',
@@ -225,8 +286,21 @@ persist.connect({
 
     conn.runSql("CREATE TABLE Sellers (id integer primary key autoincrement, name text, pwd text, phone text)", [], function (err, results) {
         conn.runSql("CREATE TABLE Items (id integer primary key autoincrement, price real, description text, seller_id integer, FOREIGN KEY(seller_id) REFERENCES Seller(id))", [], function (err2, results2) {
-          app.listen(port, function() {
+          var server = require('http').createServer(app);
+          server.listen(port, function() {
             console.log("Listening on " + port);
+          });
+          IO = io.listen(server);
+
+          IO.configure(function () {
+            IO.set("transports", ["xhr-polling"]);
+            IO.set("polling duration", 10);
+          });
+
+          IO.sockets.on('connection', function (socket) {
+            socket.on('sub', function (data) {
+              socket.join(data);
+            });
           });
         });
     });
