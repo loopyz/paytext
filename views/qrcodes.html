@@ -107,16 +107,11 @@
               <li><a href="/delete-item">Delete Item</a></li>
               <li class="active"><a href="/qrcodes">QR Codes</a></li>
               <li class="nav-header">Items</li>
-              <li><a href="/item">Cookies</a></li>
-              <li><a href="/item">Chips</a></li>
-              <li><a href="/item">Clothes</a></li>
-              <li><a href="/item">Link</a></li>
-              <li><a href="/item">Link</a></li>
-              <li><a href="/item">Link</a></li>
-              <li class="nav-header">Sidebar</li>
-              <li><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
+              {% for side in sidebar_items %}
+              <li>
+                <a href="/item/{{ side.id }}">{{ side.description }}</a>
+              </li>
+              {% endfor %}
             </ul>
           </div><!--/.well -->
         </div><!--/span-->
