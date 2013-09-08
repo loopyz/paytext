@@ -178,7 +178,7 @@ app.get('/item', function (req, res) {
 
   var chart = quiche('line');
   chart.setTitle('Items Sold');
-  chart.addData([23, 33, 32, 55, 48, 66, 83, 21, 64], 'Cookies', '999999');
+  chart.addData([23, 33, 32, 55, 48, 66, 83, 21, 64], "Cookie", '999999');
   chart.addAxisLabels('x', ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept']);
   chart.setAutoScaling();
   chart.setTransparentBackground();
