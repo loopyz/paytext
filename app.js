@@ -227,9 +227,10 @@ app.get('/make_purchase', function (req, res) {
             { form: {
               access_token: req.query.access_token,
               phone: seller_phone,
-              note: 'You bought ' + description + ' at ' + d.getHours() + ':' +
-                d.getMinutes() + ':' + d.getSeconds(),
+              note: 'You bought ' + description + ' at ' + d.getHours() + ' : ' +
+                d.getMinutes() + ' : ' + d.getSeconds(),
               amount: price,
+              audience: 'private',
             }}
           , function (err, response, body) {
             var response = JSON.parse(body),
@@ -277,9 +278,10 @@ app.get('/api/pay', function (req, res) {
     { form: {
       access_token: req.query.access_token,
       phone: payee_phone,
-      note: 'Bought some stuff at ' + d.getHours() + ':' +
-        d.getMinutes() + ':' + d.getSeconds(),
+      note: 'Bought some stuff at ' + d.getHours() + ' : ' +
+        d.getMinutes() + ' : ' + d.getSeconds(),
       amount: amount,
+      audience: 'private',
     }}
   , function (err, response, body) {
     var response = JSON.parse(body),
